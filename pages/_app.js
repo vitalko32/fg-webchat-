@@ -1,4 +1,3 @@
-// where is an error? 
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from '../contexts/ThemeContext';
 import '../styles/globals.css';
