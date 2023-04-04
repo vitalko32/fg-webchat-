@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { ThemeProvider } from '../contexts/ThemeContext';
+import React from 'react';
+import {ThemeProvider} from 'contexts/themeContext';
+import {SessionProvider} from 'next-auth/react';
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }) {
-  const [theme, setTheme] = useState('light');
-
-  useEffect(() => {
-    const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    setTheme(preferredTheme);
-  }, []);
-
+function MyApp({Component, pageProps: {session, ...pageProps}}) {
   return (
-    <ThemeProvider value={{ theme, setTheme }}>
-      <Component {...pageProps} />
-    </ThemeProvider>
+      <div className="app">
+          <SessionProvider session={ session }>
+              <ThemeProvider>
+                  <Component { ...pageProps } />
+              </ThemeProvider>
+          </SessionProvider>
+       </div>
   );
 }
 

@@ -1,24 +1,17 @@
 import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import FacebookProvider from 'next-auth/providers/facebook';
 
-export default NextAuth({
+const options = {
   providers: [
-    Providers.Facebook({
-      clientId: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
       scope: 'email,public_profile,user_messenger_contact',
+      httpOptions: {
+        timeout: 5000,
+      },
     }),
   ],
-  callbacks: {
-    async session(session, user) {
-      session.user.id = user.id;
-      return session;
-    },
-    async jwt(token, user) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-  },
-});
+};
+console.log(1000, options);
+export default (req, res) => NextAuth(req, res, options)
