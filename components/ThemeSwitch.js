@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ThemeSwitch = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(
+      localStorage.theme ? JSON.parse(localStorage.theme) : false
+  );
+
+  useEffect(() => {
+    isDarkMode ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
+  });
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
+    const mode = !isDarkMode;
+    setIsDarkMode(mode);
+    localStorage.setItem("theme", JSON.stringify(mode));
+  }
 
   return (
     <button
